@@ -1,10 +1,9 @@
-# GestionStock_FBL
+# GestionStock_FLD
 
 <h2>Projet de Fin de Module : Gestion Stock FLD</h2>
 <p>Dans le cadre du module de développement web avec PHP/MySQL, vous êtes 
 invités à compléter et finaliser une application de gestion de stock déjà amorcée 
-en classe. Ce projet servira de projet de fin de module et sera évalué en 
-groupe.</p>
+en classe. Ce projet servira de projet de fin de module.</p>
 <p>❖  Objectif <br>
 Mettre en place une application web de gestion de stock pour une 
 boutique en ligne fictive "BOUTIQUE FLD", permettant 
