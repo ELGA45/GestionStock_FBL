@@ -8,7 +8,7 @@
       $this->conn = $db->connect(); 
     }
 
-    public function AddUtilisateur($nom, $email, $mot_de_passe, $rôle, $statut, $roleActuel) {
+    public function AddUtilisateur($nom, $email, $mot_de_passe, $role, $statut, $roleActuel) {
       if ($roleActuel !== 'admin') {
         echo "⛔ Accès refusé : seuls les admins peuvent ajouter un utilisateur.";
         return;
@@ -18,7 +18,7 @@
         try {
           $sql = "INSERT INTO utilisateur(nom, email, mot_de_passe, rôle, statut) VALUES(?,?,?,?,?)";
           $stmt = $this->conn->prepare($sql);
-          $stmt->execute([$nom, $email, $motDePasseHache, $rôle, $statut]);
+          $stmt->execute([$nom, $email, $motDePasseHache, $role, $statut]);
           echo "Produit ajouter avec succé";
         } catch (PDOException $e) {
           echo "Erreur lors de l'ajout : " . $e->getMessage();
@@ -31,6 +31,14 @@
                                   FROM utilisateur");
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function UtilisateurByEamil($email){
+      $sql = "SELECT * FROM utilisateur WHERE email = ?";
+      $stmt = $this->conn->prepare($sql); 
+      $stmt->execute([$email]); 
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 
     public function DeleteUtilisateur($id, $roleActuel){
       if ($roleActuel !== 'admin') {

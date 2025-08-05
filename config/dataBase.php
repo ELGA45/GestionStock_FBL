@@ -1,9 +1,9 @@
 <?php
   class database{   
     private $host = "localhost"; 
-    private $dbname = ""; 
+    private $dbname = "gestionstockfld"; 
     private $username = "root"; 
-    private $password = "gestionstockfld";     
+    private $password = "";     
     private $conn;
 
     public function connect(){
