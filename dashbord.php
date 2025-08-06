@@ -4,7 +4,7 @@
 
 <!-- Contenu principal -->
 
-  <div class="content">
+<div class="content">
   <div class="container-fluid">
 
     <!-- Barre fixe avec titre -->
@@ -73,32 +73,6 @@
                 <td>Produit C</td>
                 <td class="text-danger">-5</td>
               </tr>
-              <tr>
-                <td>15/04/2024</td>
-                <td>Produit C</td>
-                <td class="text-danger">-5</td>
-              </tr>
-              <tr>
-                <tr>
-                <td>15/04/2024</td>
-                <td>Produit C</td>
-                <td class="text-danger">-5</td>
-              </tr>
-              <tr>
-                <td>15/04/2024</td>
-                <td>Produit C</td>
-                <td class="text-danger">-5</td>
-              </tr>
-                <td>15/04/2024</td>
-                <td>Produit C</td>
-                <td class="text-danger">-5</td>
-              </tr>
-              <tr>
-                <td>15/04/2024</td>
-                <td>Produit C</td>
-                <td class="text-danger">-5</td>
-              </tr>
-              <!-- ... autres lignes ... -->
             </tbody>
           </table>
         </div>
