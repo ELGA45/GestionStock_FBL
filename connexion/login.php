@@ -19,8 +19,8 @@
 </form>
 
 <?php
-  require  'config/utilisateur.php';
-  
+  require __DIR__ . '/../config/utilisateur.php';
+
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
     extract($_POST);
     if($email == null || $passwd == null){
