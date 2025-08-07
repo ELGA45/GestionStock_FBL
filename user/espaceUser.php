@@ -12,7 +12,7 @@
       }
     }
 
-  if(isset($_SESSION['connectedUser'])){
+if(isset($_SESSION['connectedUser'])){
     $user = new Utilisateur();
     $allUsers = $user->AllUtilisateur(); 
     
@@ -88,11 +88,12 @@
 </div>
 
 <?php
+
+    include '../include//footer.php';
+
   } else {
-    header("Location:/Gestion_FBL/authentification/login.php");
+    header('Location:/GestionStock_FBL/authentification/login.php?auth=0');
     exit();
   }
-
-  include '../include//footer.php';
 
 ?>

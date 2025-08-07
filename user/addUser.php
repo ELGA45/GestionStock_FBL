@@ -31,6 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $messageClass = "warning";
     }
 }
+
+if(isset($_SESSION['connectedUser'])){
 ?>
 
 <div class="content">
@@ -99,3 +101,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </form>
   </div>
 </div>
+
+<?php
+
+    include '../include//footer.php';
+
+  } else {
+    header('Location:/GestionStock_FBL/authentification/login.php?auth=0');
+    exit();
+  }

@@ -77,7 +77,7 @@
     }
 
 
-    public function DeleteUtilisateur($id, $roleActuel){
+    public function deleteUtilisateur($id, $roleActuel){
       if ($roleActuel !== 'admin') {
         echo "⛔ Accès refusé : seuls les admins peuvent ajouter un utilisateur.";
         return;
