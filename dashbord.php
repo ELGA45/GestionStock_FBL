@@ -82,6 +82,6 @@
   </div>
 </div>
 
-  <?php
+<?php
   include 'include/footer.php';
 ?>

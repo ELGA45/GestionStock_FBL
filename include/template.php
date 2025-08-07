@@ -20,8 +20,8 @@
     <a href="/GestionStock_FBL/categorie">📂 Catégories</a>
     <a href="/GestionStock_FBL/client">👥 Clients</a>
     <a href="/GestionStock_FBL/commande">🛒 Commandes</a>
-    <a href="/GestionStock_FBL/user">👤 Utilisateurs</a>
-    <a href="/GestionStock_FBL/connexion/logout.php">🚪 Déconnexion</a>
+    <a href="/GestionStock_FBL/user/espaceUser.php">👤 Utilisateurs</a>
+    <a href="/GestionStock_FBL/authentification/logout.php">🚪 Déconnexion</a>
   </div>
 
   

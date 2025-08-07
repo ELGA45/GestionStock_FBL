@@ -27,7 +27,7 @@
     }
 
     public function AllUtilisateur(){
-      $stmt = $this->conn->query("SELECT nom, email, rôle, statut
+      $stmt = $this->conn->query("SELECT id, nom, email, rôle, statut
                                   FROM utilisateur");
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -37,6 +37,43 @@
       $stmt = $this->conn->prepare($sql); 
       $stmt->execute([$email]); 
       return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function UtilisateurById($id){
+      $sql = "SELECT * FROM utilisateur WHERE id = ?";
+      $stmt = $this->conn->prepare($sql); 
+      $stmt->execute([$id]); 
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function editUser($id, $nom, $email, $mot_de_passe, $role, $statut){
+      $motDePasseHache = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+      try {
+        $sql = "UPDATE utilisateur SET  nom = ?,
+                                    eamil = ?,
+                                    mot_de_passe = ?,
+                                    rôle = ?,
+                                    statut = ?,
+                              WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$nom, $email, $motDePasseHache, $role, $statut, $id]);
+            return "✅ Utilisateur mise à jour avec succès";
+      } catch (PDOException $e) {
+          return "❌ Erreur lors de la mise à jour : " . $e->getMessage();
+      }
+      
+    }
+
+    public function statutUser($id, $statut){
+      try {
+        $sql = "UPDATE utilisateur SET  statut = ?
+                              WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$statut, $id]);
+      } catch (PDOException $e) {
+          return "❌ Erreur lors de la mise à jour : " . $e->getMessage();
+      }
+      
     }
 
 

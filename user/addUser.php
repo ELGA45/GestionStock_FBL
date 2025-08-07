@@ -36,14 +36,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="content">
   <div class="container-fluid">
 
-    <!-- Barre fixe avec titre -->
-    <div class="tab-bord">
-      <h1 class="mb-0">Utilisateur</h1>
+  <div class="tab-bord">
+      <h1 class="mb-0">Espace Utilisateur</h1>
     </div>
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Ajouter un utilisateur</h2>
+            <a href="espaceUser.php" class="btn btn-dark">🔙 Retour</a>
+      </div>
 
     <form action="" method="POST" class="p-4 shadow rounded bg-white" style="max-width: 500px; margin: auto; margin-top: 20px">
-        <h2 class="text-center mb-4">Ajouter un Utilisateur</h2>
-
+  
         <!-- Message d'information -->
         <?php if (!empty($message)): ?>
             <div class="alert alert-<?= $messageClass ?> text-center">
