@@ -17,7 +17,7 @@
     </div>
     <a href="/GestionStock_FBL/dashbord.php">🏠 Tableau de bord</a>
     <a href="/GestionStock_FBL/produit">📦 Produits</a>
-    <a href="/GestionStock_FBL/categorie">📂 Catégories</a>
+    <a href="/GestionStock_FBL/categorie/espaceCategorie.php">📂 Catégories</a>
     <a href="/GestionStock_FBL/client">👥 Clients</a>
     <a href="/GestionStock_FBL/commande">🛒 Commandes</a>
     <a href="/GestionStock_FBL/user/espaceUser.php">👤 Utilisateurs</a>

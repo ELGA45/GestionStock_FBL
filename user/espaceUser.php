@@ -67,7 +67,7 @@ if(isset($_SESSION['connectedUser'])){
                       <td>
                         <?php echo "<a href='editUser.php?id=".$users['id']."' class='btn btn-sm btn-warning'>
                                       ✏️ Modifier
-                                    </a>";
+                                    </a>&nbsp";
                               echo "<a href='deleteUser.php?id=".$users['id']."' class='btn btn-sm btn-danger'>
                                       🗑️ Supprimer
                                     </a>";

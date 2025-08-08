@@ -46,6 +46,7 @@ if(isset($_SESSION['connectedUser'])){
             <h2>Modifier un utilisateur</h2>
                 <a href="espaceUser.php" class="btn btn-dark">🔙 Retour</a>
           </div>
+        </div>
 
           <form action="" method="POST" class="p-4 shadow rounded bg-white" style="max-width: 500px; margin: auto; margin-top: 20px">
 
