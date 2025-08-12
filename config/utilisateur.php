@@ -50,10 +50,10 @@
       $motDePasseHache = password_hash($mot_de_passe, PASSWORD_DEFAULT);
       try {
         $sql = "UPDATE utilisateur SET  nom = ?,
-                                    eamil = ?,
+                                    email = ?,
                                     mot_de_passe = ?,
                                     rôle = ?,
-                                    statut = ?,
+                                    statut = ?
                               WHERE id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$nom, $email, $motDePasseHache, $role, $statut, $id]);

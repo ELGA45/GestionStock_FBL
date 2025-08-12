@@ -1,8 +1,10 @@
 <?php
   session_start();
   include 'include/template.php';
-
+  include 'config/produit.php';
   if(isset($_SESSION['connectedUser'])){
+    $infoStock = new Produit();
+    $info = $infoStock->info();
 ?>
 
 <!-- Contenu principal -->
@@ -24,7 +26,7 @@
             <div class="card text-center shadow-sm">
               <div class="card-body">
                 <h5 class="card-title">Nombre de produits</h5>
-                <p class="display-6 fw-bold text-primary">150</p>
+                <p class="display-6 fw-bold text-primary"><?= htmlspecialchars($info['nbrProduit']) ?></p>
               </div>
             </div>
           </div>
@@ -32,7 +34,7 @@
             <div class="card text-center shadow-sm">
               <div class="card-body">
                 <h5 class="card-title">Stock total</h5>
-                <p class="display-6 fw-bold text-success">5,000</p>
+                <p class="display-6 fw-bold text-success"><?= htmlspecialchars($info['stockTotal']) ?></p>
               </div>
             </div>
           </div>
@@ -40,7 +42,7 @@
             <div class="card text-center shadow-sm">
               <div class="card-body">
                 <h5 class="card-title">Valeur totale</h5>
-                <p class="display-6 fw-bold text-danger">€75,000</p>
+                <p class="display-6 fw-bold text-danger"><?= htmlspecialchars($info['valeurTotal']) ?></p>
               </div>
             </div>
           </div>

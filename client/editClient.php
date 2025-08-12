@@ -1,17 +1,21 @@
 <?php
 session_start();
 include("../include/template.php");
-require __DIR__ . '/../config/categorie.php';
+require __DIR__ . '/../config/client.php';
 
 $message = "";
 $messageClass = "info"; // Pour couleur Bootstrap
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? '';
+    $id = $_POST['id']?? '';
     $nom = $_POST['nom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $tel = $_POST['tel'] ?? '';
 
-    $editCtg = new Categorie();
-    $message = $editCtg->editCategorie($id, $nom);
+    $editClient = new Client();
+    $emailClient = $editClient->clientByEmail($email);
+
+    $message = $editClient->editClient($id, $nom, $email, $tel);
 
     if (strpos($message, '✅') !== false) {
             $messageClass = "success";
@@ -21,23 +25,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if(isset($_SESSION['connectedUser'])){
-
   if(isset($_GET['id'])){
     $id = htmlspecialchars($_GET['id']);
-    $ctg = new Categorie();
-    $infoCtg = $ctg->categorieById($id);
+    $client = new Client();
+    $infoClient = $client->clientById($id);
 
-    if($infoCtg){ ?>
+    if($infoClient){ ?>
       <div class="content">
         <div class="container-fluid">
 
         <div class="tab-bord">
-          <h1 class="mb-0">Espace Produit</h1>
+          <h1 class="mb-0">Espace Client</h1>
         </div>
         <div class="container mt-5">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Modifier une Categorie</h2>
-            <a href="espaceCategorie.php" class="btn btn-dark">🔙 Retour</a>
+            <h2>Modifier un Client</h2>
+                <a href="espaceClient.php" class="btn btn-dark">🔙 Retour</a>
           </div>
         </div>
 
@@ -50,12 +53,26 @@ if(isset($_SESSION['connectedUser'])){
                   </div>
               <?php endif; ?>
               
-              <input type="hidden" name="id" value="<?= htmlspecialchars($infoCtg['id']) ?>">
+              <input type="hidden" name="id" value="<?= htmlspecialchars($infoClient['id']) ?>">
               <!-- Champ Nom -->
               <div class="mb-3">
                   <label for="nom" class="form-label">Nom</label>
-                  <input type="text" id="nom" name="nom" class="form-control" placeholder="Entrez le Libellé"
-                        value="<?= htmlspecialchars($infoCtg['nom']) ?>" required>
+                  <input type="text" id="nom" name="nom" class="form-control" placeholder="Entrez le nom"
+                        value="<?= htmlspecialchars($infoClient['nom']) ?>" required>
+              </div>
+
+              <!-- Champ Email -->
+              <div class="mb-3">
+                  <label for="email" class="form-label">E-mail</label>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="Entrez l'e-mail"
+                          value="<?= htmlspecialchars($infoClient['email']) ?>" required>
+              </div>
+
+              <!-- Champ Téléphone -->
+              <div class="mb-3">
+                  <label for="tel" class="form-label">Téléphone</label>
+                  <input type="text" id="tel" name="tel" class="form-control" placeholder="Entrez le Téléphone" 
+                          value="<?= htmlspecialchars($infoClient['téléphone']) ?>"required>
               </div>
 
               <!-- Bouton -->
@@ -65,7 +82,7 @@ if(isset($_SESSION['connectedUser'])){
       </div>
   <?php }
     else {
-      header("location:espaceCategorie.php");
+      header("location:espaceClient.php");
       exit();
     }
   }

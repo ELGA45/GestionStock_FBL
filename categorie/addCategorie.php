@@ -38,8 +38,8 @@ if(isset($_SESSION['connectedUser'])){
     </div>
     <div class="container mt-5">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Ajouter un Categorie</h2>
-          <a href="espaceCategorie.php" class="btn btn-dark">🔙 Retour</a>
+        <h2>Ajouter une Categorie</h2>
+        <a href="espaceCategorie.php" class="btn btn-dark">🔙 Retour</a>
       </div>
     </div>
 

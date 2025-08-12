@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if(isset($_SESSION['connectedUser'])){
   //Formulaire pour modifier un utilisateur
   if(isset($_GET['id'])){
-    $id = $_GET['id'];
+    $id = htmlspecialchars($_GET['id']);
     $user = new Utilisateur();
     $infoUser = $user->UtilisateurById($id);
 
@@ -57,7 +57,7 @@ if(isset($_SESSION['connectedUser'])){
                   </div>
               <?php endif; ?>
               
-              <input type="hidden" name="id" value="$id ">
+              <input type="hidden" name="id" value="<?= htmlspecialchars($infoUser['id']) ?>">
               <!-- Champ Nom -->
               <div class="mb-3">
                   <label for="nom" class="form-label">Nom</label>
@@ -119,7 +119,7 @@ if(isset($_SESSION['connectedUser'])){
 
   //Formulaire pour modifier le statut
   if(isset($_GET['statut'])){
-    $id = $_GET['statut'];
+    $id = htmlspecialchars($_GET['statut']);
     $user = new Utilisateur();
     $infoUser = $user->UtilisateurById($id);
 

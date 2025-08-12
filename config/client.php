@@ -8,14 +8,14 @@
       $this->conn = $db->connect(); 
     }
 
-    public function AddClient($nom, $email, $téléphone, $photo){
+    public function AddClient($nom, $email, $téléphone){
       try {
-        $sql = "INSERT INTO client(nom, email, téléphone, photo) VALUES(?, ?, ?, ?,)";
+        $sql = "INSERT INTO client(nom, email, téléphone) VALUES(?, ?, ?)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$nom, $email, $téléphone, $photo]);
-        echo "Client ajouter avec succé";
+        $stmt->execute([$nom, $email, $téléphone]);
+        return "✅ Client ajouter avec succé";
       } catch (PDOException $e) {
-        echo "Erreur lors de l'ajout : " . $e->getMessage();
+        return "❌ Erreur lors de l'ajout : " . $e->getMessage();
       }
     }
 
@@ -24,25 +24,30 @@
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function clientById($id){
+      $stmt = $this->conn->prepare("SELECT * FROM client WHERE id = ?");
+      $stmt->execute([$id]);
+      return $stmt->fetch(PDO::FETCH_ASSOC); 
+    }
+
     public function clientByEmail($email){
       $stmt = $this->conn->prepare("SELECT * FROM client WHERE email = ?");
       $stmt->execute([$email]);
-      return $stmt->fetch(PDO::FETCH_ASSOC); // Retourne false si aucune ligne trouvée
+      return $stmt->fetch(PDO::FETCH_ASSOC); 
     }
 
-    public function editClient($id, $nom, $email, $téléphone, $photo){
+    public function editClient($id, $nom, $email, $téléphone){
       try{
       $stmt = $this->conn->prepare("UPDATE client SET 
                                     nom = ?,
                                     email = ?,
-                                    téléphone = ?, 
-                                    photo = ?
+                                    téléphone = ?
                                     WHERE id = ?");
-      $stmt->execute([$nom, $email, $téléphone, $photo, $id]);
-        echo "Client mise a jour avec succée";  
+      $stmt->execute([$nom, $email, $téléphone, $id]);
+        return "✅ Client mise a jour avec succée";  
       }
       catch(PDOException $e){
-        echo "Erreur lors de la mise à jour ". $e->getMessage();
+        return "❌ Erreur lors de la mise à jour ". $e->getMessage();
       }
     }
 

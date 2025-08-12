@@ -16,9 +16,9 @@
       <img src="/GestionStock_FBL/image/logo.png" alt="Logo Boutique">
     </div>
     <a href="/GestionStock_FBL/dashbord.php">🏠 Tableau de bord</a>
-    <a href="/GestionStock_FBL/produit">📦 Produits</a>
+    <a href="/GestionStock_FBL/produit/espaceProduit.php">📦 Produits</a>
     <a href="/GestionStock_FBL/categorie/espaceCategorie.php">📂 Catégories</a>
-    <a href="/GestionStock_FBL/client">👥 Clients</a>
+    <a href="/GestionStock_FBL/client/espaceClient.php">👥 Clients</a>
     <a href="/GestionStock_FBL/commande">🛒 Commandes</a>
     <a href="/GestionStock_FBL/user/espaceUser.php">👤 Utilisateurs</a>
     <a href="/GestionStock_FBL/authentification/logout.php">🚪 Déconnexion</a>
