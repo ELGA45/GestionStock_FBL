@@ -53,8 +53,7 @@ if (isset($_SESSION['connectedUser'])) {
                           📄 Détails
                         </a>
                         <a href="deleteCommande.php?id=<?= $cmd['id'] ?>" 
-                            class="btn btn-sm btn-danger" 
-                            onclick="return confirm('Supprimer cette commande ?')">
+                            class="btn btn-sm btn-danger">
                             🗑️ Supprimer
                         </a>
                       </td>
