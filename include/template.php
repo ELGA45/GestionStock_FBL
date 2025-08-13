@@ -19,7 +19,7 @@
     <a href="/GestionStock_FBL/produit/espaceProduit.php">📦 Produits</a>
     <a href="/GestionStock_FBL/categorie/espaceCategorie.php">📂 Catégories</a>
     <a href="/GestionStock_FBL/client/espaceClient.php">👥 Clients</a>
-    <a href="/GestionStock_FBL/commande">🛒 Commandes</a>
+    <a href="/GestionStock_FBL/commande/espaceCommande.php">🛒 Commandes</a>
     <a href="/GestionStock_FBL/user/espaceUser.php">👤 Utilisateurs</a>
     <a href="/GestionStock_FBL/authentification/logout.php">🚪 Déconnexion</a>
   </div>

@@ -1,5 +1,5 @@
 <?php
-include "dataBase.php";
+require_once "dataBase.php";
 
 class Commande {
     private $conn;
@@ -14,26 +14,47 @@ class Commande {
         try {
             $this->conn->beginTransaction();
 
+            // Vérifier si le client existe
+            $stmtCheckClient = $this->conn->prepare("SELECT id FROM client WHERE id = ?");
+            $stmtCheckClient->execute([$idClient]);
+            if (!$stmtCheckClient->fetchColumn()) {
+                return "⚠️ Client introuvable";
+            }
+
             // 1. Insérer la commande
             $sql = "INSERT INTO commande(idClient, dateCommande, etat) VALUES (?, NOW(), 'en attente')";
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([$idClient]);
             $idCommande = $this->conn->lastInsertId();
 
-            // 2. Ajouter les produits dans commande_produit
+            // 2. Ajouter les produits dans commande_produit + mettre à jour le stock
             $sqlProd = "INSERT INTO commande_produit(idCommande, idProduit, quantite) VALUES (?, ?, ?)";
             $stmtProd = $this->conn->prepare($sqlProd);
 
-            // 3. Préparer la requête de mise à jour du stock
-            $sqlUpdateStock = "UPDATE produit SET stock = stock - ? WHERE id = ?";
+            $sqlUpdateStock = "UPDATE produit SET stock = stock - ? WHERE id = ? AND stock >= ?";
             $stmtStock = $this->conn->prepare($sqlUpdateStock);
 
             foreach ($produits as $p) {
+                // Vérifier si le produit existe et stock suffisant
+                $stmtCheckProd = $this->conn->prepare("SELECT stock FROM produit WHERE id = ?");
+                $stmtCheckProd->execute([$p['idProduit']]);
+                $stockActuel = $stmtCheckProd->fetchColumn();
+
+                if ($stockActuel === false) {
+                    $this->conn->rollBack();
+                    return "⚠️ Produit ID {$p['idProduit']} introuvable";
+                }
+
+                if ($stockActuel < $p['quantite']) {
+                    $this->conn->rollBack();
+                    return "⚠️ Stock insuffisant pour le produit ID {$p['idProduit']}";
+                }
+
                 // Ajouter à commande_produit
                 $stmtProd->execute([$idCommande, $p['idProduit'], $p['quantite']]);
 
                 // Diminuer le stock
-                $stmtStock->execute([$p['quantite'], $p['idProduit']]);
+                $stmtStock->execute([$p['quantite'], $p['idProduit'], $p['quantite']]);
             }
 
             $this->conn->commit();
@@ -64,6 +85,50 @@ class Commande {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function UpdateCommande($idCommande, $idClient, $produits) {
+    try {
+        $this->conn->beginTransaction();
+
+        // Supprimer les anciens produits de la commande
+        $sqlDeleteProd = "DELETE FROM commande_produit WHERE idCommande = ?";
+        $stmtDel = $this->conn->prepare($sqlDeleteProd);
+        $stmtDel->execute([$idCommande]);
+
+        // Remettre le stock des anciens produits
+        $sqlStockRetour = "UPDATE produit p 
+                           JOIN commande_produit cp ON p.id = cp.idProduit 
+                           SET p.stock = p.stock + cp.quantite 
+                           WHERE cp.idCommande = ?";
+        $stmtStockRetour = $this->conn->prepare($sqlStockRetour);
+        $stmtStockRetour->execute([$idCommande]);
+
+        // Mettre à jour le client
+        $sqlUpdateCmd = "UPDATE commande SET idClient = ? WHERE id = ?";
+        $stmtUpdateCmd = $this->conn->prepare($sqlUpdateCmd);
+        $stmtUpdateCmd->execute([$idClient, $idCommande]);
+
+        // Ajouter les nouveaux produits
+        $sqlProd = "INSERT INTO commande_produit(idCommande, idProduit, quantite) VALUES (?, ?, ?)";
+        $stmtProd = $this->conn->prepare($sqlProd);
+
+        // Diminuer le stock pour les nouveaux produits
+        $sqlUpdateStock = "UPDATE produit SET stock = stock - ? WHERE id = ?";
+        $stmtStock = $this->conn->prepare($sqlUpdateStock);
+
+        foreach ($produits as $p) {
+            $stmtProd->execute([$idCommande, $p['idProduit'], $p['quantite']]);
+            $stmtStock->execute([$p['quantite'], $p['idProduit']]);
+        }
+
+        $this->conn->commit();
+        return "✅ Commande modifiée avec succès";
+    } catch (PDOException $e) {
+        $this->conn->rollBack();
+        return "❌ Erreur lors de la modification : " . $e->getMessage();
+    }
+}
+
+
     // Modifier état d'une commande
     public function UpdateEtat($idCommande, $nouvelEtat) {
         // Vérifier l'état actuel
@@ -72,8 +137,17 @@ class Commande {
         $stmtCheck->execute([$idCommande]);
         $etatActuel = $stmtCheck->fetchColumn();
 
+        if (!$etatActuel) {
+            return "⚠️ Commande introuvable";
+        }
+
         if ($etatActuel === 'livrée') {
             return "⚠️ Impossible de modifier une commande déjà livrée";
+        }
+
+        $etatsValides = ['en attente', 'en cours', 'livrée'];
+        if (!in_array($nouvelEtat, $etatsValides)) {
+            return "❌ État invalide";
         }
 
         $sql = "UPDATE commande SET etat = ? WHERE id = ?";
@@ -82,6 +156,7 @@ class Commande {
         return "✅ État de la commande mis à jour";
     }
 
+    // Supprimer une commande
     public function DeleteCommande($idCommande) {
         try {
             // Vérifier l'état de la commande
@@ -89,6 +164,10 @@ class Commande {
             $stmtEtat = $this->conn->prepare($sqlEtat);
             $stmtEtat->execute([$idCommande]);
             $etat = $stmtEtat->fetchColumn();
+
+            if (!$etat) {
+                return "⚠️ Commande introuvable";
+            }
 
             $this->conn->beginTransaction();
 

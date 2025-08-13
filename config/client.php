@@ -1,5 +1,5 @@
 <?php
-  include "dataBase.php";
+  require_once "dataBase.php";
 
   class Client {
     private $conn;
